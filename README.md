@@ -22,6 +22,6 @@
 - /vendor : bootstrap et jquery
 
 ***BASE DE DONNEES***
-- test.sql : base de données qui sera intégrée (avec données)
+- bdd.sql : base de données qui sera intégrée (avec données)
 
 Bon courage ! :)
