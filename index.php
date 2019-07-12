@@ -1,5 +1,9 @@
 <?php
-    require_once('livres.php');
+    //define('HTTP_NOT_FOUND', 404);
+    //echo HTTP_NOT_FOUND;
+
+    require_once('inc/livres.php');
+    require_once('fonctions/fonctions.php');
     if(count($livres) == 0) {
         die("Pas de livres disponibles !");
     }
@@ -26,30 +30,9 @@
 
 <body>
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="index.php">Ma super boutique</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-            <li class="nav-item">
-                <a class="nav-link" href="login.php">Vous connecter</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="contact.php">Nous contacter</a>
-            </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+    <?php
+    require_once("inc/menu_top.php");
+    ?>
 
   <!-- Page Content -->
   <div class="container" style="margin-top:20px">
@@ -73,16 +56,9 @@
               ?>
           </p>
 
-
-        <h1 class="my-4">Nos supers livres</h1>
-        <div class="list-group">
-            <?php
-            foreach($livres as $k => $livre) { ?>
-                <a href="item.php?livre=<?= $k ?>" class="list-group-item"><?php echo($livre["titre"]) ?></a>
-                <?php
-            }
-            ?>
-        </div>
+          <?php
+          require("inc/liste.php");
+          ?>
 
       </div>
       <!-- /.col-lg-3 -->
@@ -100,7 +76,7 @@
 
               <div class="col-lg-4 col-md-6 mb-4">
                   <div class="card h-100">
-                      <a href="item.php?livre=<?= $k ?>">
+                      <a href="item.php?livre=<?php echo $k ?>">
                           <img class="card-img-top" src="<?= $livre["image"] ?>" alt="">
                       </a>
                       <div class="card-body">
@@ -108,8 +84,10 @@
                               <a href="item.php?livre=<?= $k ?>"><?= $livre["titre"] ?></a>
                           </h4>
                           <h4><?= $livre["auteur"] ?></h4>
-                          <h5><?= number_format($livre["prix"],2) ?> &euro;</h5>
-                          <p class="card-text"><?= mb_substr($livre["resume"], 0, 150) ?> ... </p>
+                          <h5><?php echo number_format($livre["prix"],2) ?> &euro;</h5>
+                          <p class="card-text">
+                              <?= mb_substr($livre["resume"], 0, 150) ?> ...
+                          </p>
                       </div>
                       <div class="card-footer">
                           <small class="text-muted">
@@ -147,13 +125,9 @@
   </div>
   <!-- /.container -->
 
-  <!-- Footer -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Ma super boutique 2019</p>
-    </div>
-    <!-- /.container -->
-  </footer>
+    <?php
+    require('inc/footer.php');
+    ?>
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>

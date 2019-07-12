@@ -1,5 +1,6 @@
 <?php
-require_once('livres.php');
+require_once('inc/livres.php');
+
 if(count($livres) == 0) {
     die("Pas de livres disponibles !");
 }
@@ -32,30 +33,9 @@ if(isset($_GET["livre"])) {
 
 <body>
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="index.php">Ma super boutique</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="login.php">Vous connecter</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contact.php">Nous contacter</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<?php
+require_once("inc/menu_top.php");
+?>
 
 <!-- Page Content -->
 <div class="container">
@@ -63,15 +43,9 @@ if(isset($_GET["livre"])) {
     <div class="row">
 
         <div class="col-lg-3">
-            <h1 class="my-4">Nos supers livres</h1>
-            <div class="list-group">
-                <?php
-                foreach($livres as $k => $livre) { ?>
-                    <a href="item.php?livre=<?= $k ?>" class="list-group-item <?php if($k == $monLivre){echo "active";} ?>"><?php echo($livre["titre"]) ?></a>
-                    <?php
-                }
-                ?>
-            </div>
+            <?php
+            require("inc/liste.php");
+            ?>
         </div>
         <!-- /.col-lg-3 -->
 
@@ -115,13 +89,9 @@ if(isset($_GET["livre"])) {
 </div>
 <!-- /.container -->
 
-<!-- Footer -->
-<footer class="py-5 bg-dark">
-    <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Ma super boutique 2019</p>
-    </div>
-    <!-- /.container -->
-</footer>
+<?php
+require('inc/footer.php');
+?>
 
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
