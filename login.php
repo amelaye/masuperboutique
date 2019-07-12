@@ -18,16 +18,14 @@ if(isset($_POST["email"]) && $_POST["email"] != ""
     foreach($users as $user) {
         // Je vérifie les correspondances du mail : utilisateur trouvé
         if($_POST['email'] == $user['email']) {
-            if($_POST['password'] == $user['password']) {
+            if ($_POST['password'] == $user['password']) {
                 $isAuth = true; // Utilisateur authentifié
-            } else {
-                // L'utilisateur est reconnu mais saisi un mauvais mot de passe
-                $erreurs[] = "Mauvais mot de passe.";
+                continue; // arrête d'itérer le foreach
             }
-        } else {
-            // utilisateur inconnu dans la base
-            $erreurs[] = "Utilisateur inconnu.";
         }
+    }
+    if($isAuth == false) {
+        $erreurs[] = "Mauvais login ou mauvais mot de passe.";
     }
 } else {
     /**
@@ -72,6 +70,24 @@ require_once('inc/menu_top.php');
 ?>
 <div class="container" style="margin-top:20px">
     <h5>Espace client</h5>
+    <?php
+    // Si j'ai envoyé mon formulaire
+    if(isset($_POST["envoyer"])) {
+        // Si je suis authentifié.e
+        if($isAuth) {
+            echo "<h5>Vous êtes authentifié.e :) </h5>";
+        } else {
+            echo '<div class="alert alert-danger fade show">';
+            echo '<ul>';
+            foreach($erreurs as $erreur) {
+                echo '<li>'.$erreur.'</li>';
+            }
+            echo '</ul>';
+            echo '</div>';
+        }
+    }
+    ?>
+
     <form action="" method="POST">
 
         <div class="form-group row">
