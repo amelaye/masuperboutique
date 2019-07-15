@@ -12,9 +12,21 @@
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="login.php">Vous connecter</a>
-                </li>
+                <?php
+                if(!isset($_SESSION["prenom"])) {
+                    echo '<li class="nav-item">';
+                    echo '<a class="nav-link" href="login.php">';
+                    echo 'Vous connecter';
+                    echo '</a>';
+                    echo '</li>';
+                } else {
+                    echo '<li class="nav-item">';
+                    echo '<a class="nav-link" href="deconnect.php">';
+                    echo 'Vous déconnecter';
+                    echo '</a>';
+                    echo '</li>';
+                }
+                ?>
                 <li class="nav-item">
                     <a class="nav-link" href="contact.php">Nous contacter</a>
                 </li>

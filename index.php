@@ -1,4 +1,5 @@
 <?php
+    session_start();
     //define('HTTP_NOT_FOUND', 404);
     //echo HTTP_NOT_FOUND;
 
@@ -41,13 +42,13 @@
 
       <div class="col-lg-3">
           <?php
-            if(!isset($SESSION["prenom"])) {
-                $prenom = "toi";
-            } else {
-                $prenom = $SESSION["prenom"];
-            }
+          if(isset($_SESSION["prenom"])) {
+              $personne = $_SESSION["prenom"];
+          } else {
+              $personne = "toi";
+          }
           ?>
-          <h1 class="my-4">Bonjour, <?= $prenom ?></h1>
+          <h1 class="my-4">Bonjour, <?php echo $personne ?></h1>
 
           <p>
               Aujourd'hui nous sommes le :

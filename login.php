@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('inc/users.php');
 // Traitement de mes users ...
 /**
@@ -17,11 +18,13 @@ if(isset($_POST["email"]) && $_POST["email"] != ""
      */
     foreach($users as $user) {
         // Je vérifie les correspondances du mail : utilisateur trouvé
-        if($_POST['email'] == $user['email']) {
-            if ($_POST['password'] == $user['password']) {
-                $isAuth = true; // Utilisateur authentifié
-                continue; // arrête d'itérer le foreach
-            }
+        if($_POST['email'] == $user['email']
+            && $_POST['password'] == $user['password']) {
+            $isAuth = true; // Utilisateur authentifié
+            $_SESSION['email'] = $_POST['email'];
+            $_SESSION['prenom'] = $user['prenom'];
+            header('Location:index.php');
+            continue; // arrête d'itérer le foreach
         }
     }
     if($isAuth == false) {
