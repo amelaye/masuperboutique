@@ -44,7 +44,11 @@
           <?php
           if(isset($_SESSION["prenom"])) {
               $personne = $_SESSION["prenom"];
-          } else {
+          }
+          else if(isset($_COOKIE["prenom"])) {
+              $personne = $_COOKIE["prenom"];
+          }
+          else {
               $personne = "toi";
           }
           ?>

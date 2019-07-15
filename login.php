@@ -20,9 +20,27 @@ if(isset($_POST["email"]) && $_POST["email"] != ""
         // Je vérifie les correspondances du mail : utilisateur trouvé
         if($_POST['email'] == $user['email']
             && $_POST['password'] == $user['password']) {
+            /**
+             * Je donne le ticket d'entrée au user
+             */
             $isAuth = true; // Utilisateur authentifié
-            $_SESSION['email'] = $_POST['email'];
-            $_SESSION['prenom'] = $user['prenom'];
+
+            /**
+             * Si remember_me est coché, je mets les éléments en cookie
+             * Les cookies ont une durée de deux heures
+             * Soit 7200 secondes
+             * Sinon, je les mets juste en session
+             */
+            if(isset($_POST["remember_me"]) && $_POST["remember_me"] = "on") {
+                // Création des cookies
+                setcookie('email', $_POST['email'], time() + 7200);
+                setcookie('prenom', $user['prenom'], time() + 7200);
+            } else {
+                // Création des sessions
+                $_SESSION['email'] = $_POST['email'];
+                $_SESSION['prenom'] = $user['prenom'];
+            }
+
             header('Location:index.php');
             continue; // arrête d'itérer le foreach
         }
@@ -104,6 +122,13 @@ require_once('inc/menu_top.php');
             <label for="password" class="col-sm-2 col-form-label">Mot de passe</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" name="password" id="email">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="password" class="col-sm-2 col-form-label">Se souvenir</label>
+            <div class="col-sm-1">
+                <input type="checkbox" class="form-control" name="remember_me" id="remember_me">
             </div>
         </div>
 

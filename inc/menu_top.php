@@ -13,7 +13,7 @@
                     </a>
                 </li>
                 <?php
-                if(!isset($_SESSION["prenom"])) {
+                if(!isset($_SESSION["prenom"]) && !isset($_COOKIE["prenom"])) {
                     echo '<li class="nav-item">';
                     echo '<a class="nav-link" href="login.php">';
                     echo 'Vous connecter';
