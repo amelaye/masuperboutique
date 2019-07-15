@@ -1,5 +1,6 @@
 <?php
 require_once('inc/livres.php');
+require_once('fonctions/fonctions.php');
 
 if(count($livres) == 0) {
     die("Pas de livres disponibles !");
