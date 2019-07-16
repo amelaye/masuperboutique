@@ -1,4 +1,5 @@
 <?php
+var_dump(preg_match('(Mac)', php_uname()));
 if(isset($_POST["submit"])
     && isset($_FILES['picture'])) {
     /**
@@ -12,8 +13,22 @@ if(isset($_POST["submit"])
      * dirname(__FILE__) . "/uploads/";
      * Sous Windows -> backslash (double \\ à la fin)
      * dirname(__FILE__) . "\uploads\\";
+     *
+     * php_uname() renvoit les expressions sur le système d'exploitation
+     * preg_match() cherche un pattern dans une expression
+     * et renvoie true si l'expression est trouvée
      */
-    $uploaddir = dirname(__FILE__) . "/uploads/";
+    if(preg_match('(Mac)', php_uname()) ||
+        preg_match('(Linux)', php_uname())) {
+        $uploaddir = dirname(__FILE__) . "/uploads/";
+    }
+    else if(preg_match('(Windows)', php_uname())) {
+        $uploaddir = dirname(__FILE__) . "\uploads\\";
+    }
+    else {
+        $uploaddir = dirname(__FILE__) . "/uploads/";
+    }
+
 
     /**
      * Je vérifie l'existence du répertoire de téléchargement.
@@ -26,6 +41,7 @@ if(isset($_POST["submit"])
     /**
      * On definit le nom du fichier (précédé de son chemin)
      */
+
     $uploadfile = $uploaddir . basename($_FILES['picture']['name']);
 
     /**
