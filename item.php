@@ -1,12 +1,8 @@
 <?php
 session_start();
-//require_once('inc/livres.php');
+
 require_once('inc/mysql-connect.php');
 require_once('fonctions/fonctions.php');
-
-//if(count($livres) == 0) {
-    //die("Pas de livres disponibles !");
-//}
 
 if(isset($_GET["livre"])) {
     $monLivre = $_GET["livre"];
