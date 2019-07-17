@@ -9,12 +9,8 @@ session_destroy();
  * Je supprime les cookies s'ils existent
  * Pour ce faire, valeur vide et timestamp négatif
  */
-if(isset($_COOKIE['email'])) {
-    setcookie('email', '', time() - 3600);
-}
-
-if(isset($_COOKIE['prenom'])) {
-    setcookie('prenom', '', time() - 3600);
+if(isset($_COOKIE['id_client'])) {
+    setcookie('id_client', '', time() - 3600);
 }
 
 /**

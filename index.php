@@ -61,11 +61,24 @@
 
       <div class="col-lg-3">
           <?php
-          if(isset($_SESSION["prenom"])) {
-              $personne = $_SESSION["prenom"];
-          }
-          else if(isset($_COOKIE["prenom"])) {
-              $personne = $_COOKIE["prenom"];
+          /**
+           * Récupération du prénom
+           */
+          if(isset($_SESSION["id_client"]) || isset($_COOKIE["id_client"])) {
+              if (isset($_SESSION["id_client"])) {
+                  $id = $_SESSION["id_client"];
+              } else if (isset($_COOKIE["id_client"])) {
+                  $id = $_COOKIE["id_client"];
+              }
+              $sql = "SELECT prenom
+                FROM client 
+                WHERE id_client = :id
+                ";
+
+              $req = $dbh->prepare($sql);
+              $req->bindParam(':id', $id);
+              $req->execute();
+              $personne = $req->fetch()["prenom"];
           }
           else {
               $personne = "toi";

@@ -1,12 +1,14 @@
 <?php
 session_start();
-require_once('inc/users.php');
+
+require_once('inc/mysql-connect.php');
+
 // Traitement de mes users ...
 /**
  * Je crée un tableau d'erreurs
  */
 $erreurs = []; // Ma pile d'erreurs
-$isAuth = false; // Utilisateur authentifié ou non ? Au début, non.
+$user = false; // Au début false, après prendra le tableau relatif au user
 
 /**
  * J'ai rempli mon login et mon mot de passe
@@ -14,39 +16,38 @@ $isAuth = false; // Utilisateur authentifié ou non ? Au début, non.
 if(isset($_POST["email"]) && $_POST["email"] != ""
     && isset($_POST["password"]) && $_POST["password"] != "") {
     /**
-     * Je parcours ma liste de users
+     * Je vais vérifier si mon user existe
      */
-    foreach($users as $user) {
-        // Je vérifie les correspondances du mail : utilisateur trouvé
-        if($_POST['email'] == $user['email']
-            && $_POST['password'] == $user['password']) {
-            /**
-             * Je donne le ticket d'entrée au user
-             */
-            $isAuth = true; // Utilisateur authentifié
+    $sql = "SELECT client.id_client, client.email, client.password 
+            FROM client 
+            WHERE client.email = :toto
+            AND client.password = :password
+            ";
 
-            /**
-             * Si remember_me est coché, je mets les éléments en cookie
-             * Les cookies ont une durée de deux heures
-             * Soit 7200 secondes
-             * Sinon, je les mets juste en session
-             */
-            if(isset($_POST["remember_me"]) && $_POST["remember_me"] = "on") {
-                // Création des cookies
-                setcookie('email', $_POST['email'], time() + 7200);
-                setcookie('prenom', $user['prenom'], time() + 7200);
-            } else {
-                // Création des sessions
-                $_SESSION['email'] = $_POST['email'];
-                $_SESSION['prenom'] = $user['prenom'];
-            }
+    $req = $dbh->prepare($sql);
+    $req->bindParam(':toto', $_POST["email"]);
+    $req->bindParam(':password', $_POST["password"]);
+    $req->execute();
+    $user = $req->fetch(); // Je vérifie les correspondances du mail : utilisateur trouvé
 
-            header('Location:index.php');
-            continue; // arrête d'itérer le foreach
-        }
-    }
-    if($isAuth == false) {
-        $erreurs[] = "Mauvais login ou mauvais mot de passe.";
+     if($user != false) {
+         /**
+          * Si remember_me est coché, je mets les éléments en cookie
+          * Les cookies ont une durée de deux heures
+          * Soit 7200 secondes
+          * Sinon, je les mets juste en session
+          */
+         if(isset($_POST["remember_me"]) && $_POST["remember_me"] = "on") {
+             // Création des cookies
+             setcookie('id_client', $user['id_client'], time() + 7200);
+         } else {
+             // Création des sessions
+             $_SESSION['id_client'] = $user['id_client'];
+         }
+
+         header('Location:index.php');
+    } else {
+         $erreurs[] = "Mauvais login ou mauvais mot de passe.";
     }
 } else {
     /**
@@ -95,7 +96,7 @@ require_once('inc/menu_top.php');
     // Si j'ai envoyé mon formulaire
     if(isset($_POST["envoyer"])) {
         // Si je suis authentifié.e
-        if($isAuth) {
+        if($user != false) {
             echo "<h5>Vous êtes authentifié.e :) </h5>";
         } else {
             echo '<div class="alert alert-danger fade show">';
