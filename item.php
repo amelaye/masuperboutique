@@ -1,17 +1,43 @@
 <?php
 session_start();
-require_once('inc/livres.php');
+//require_once('inc/livres.php');
+require_once('inc/mysql-connect.php');
 require_once('fonctions/fonctions.php');
 
-if(count($livres) == 0) {
-    die("Pas de livres disponibles !");
-}
+//if(count($livres) == 0) {
+    //die("Pas de livres disponibles !");
+//}
 
 if(isset($_GET["livre"])) {
     $monLivre = $_GET["livre"];
 } else {
     die("Le livre n'existe pas !");
 }
+
+$sql = "
+SELECT 
+livre.titre AS titre,
+livre.prix AS prix,
+livre.note AS note,
+'Pas de résumé !' AS resume,
+livre.photo AS image,
+livre.nb_pages AS nb_pages,
+CONCAT(COALESCE(auteur.prenom, ''),' ', auteur.nom) AS auteur,
+collection.nom AS collection,
+langue.nom AS langue,
+genre.nom AS genre
+FROM livre 
+LEFT JOIN auteur ON auteur.id_auteur = livre.id_auteur
+LEFT JOIN collection ON collection.id_collection = livre.id_collection
+LEFT JOIN langue ON langue.id_langue = livre.id_langue
+LEFT JOIN genre ON genre.id_genre = livre.id_genre
+WHERE id_livre = :id_livre";
+
+
+$req = $dbh->prepare($sql);
+$req->bindParam(':id_livre', $monLivre);
+$req->execute();
+$livre = $req->fetch();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +49,7 @@ if(isset($_GET["livre"])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Ma super boutique - <?= $livres[$monLivre]["titre"] ?></title>
+    <title>Ma super boutique - <?= $livre["titre"] ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -57,17 +83,21 @@ require_once("inc/menu_top.php");
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <img src="<?= $livres[$monLivre]["image"] ?>">
+                            <img src="<?= $livre["image"] ?>">
                         </div>
                         <div class="col-md-6">
-                            <h3 class="card-title"><?= $livres[$monLivre]["titre"] ?></h3>
-                            <h4 class="card-title"><?= $livres[$monLivre]["auteur"] ?></h4>
-                            <h4><?= $livres[$monLivre]["prix"] ?> &euro;</h4>
-                            <p class="card-text"><?= $livres[$monLivre]["resume"] ?></p>
+                            <h3 class="card-title"><?= $livre["titre"] ?></h3>
+                            <h4 class="card-title"><?= $livre["auteur"] ?></h4>
+                            <h4><?= $livre["prix"] ?> &euro;</h4>
+                            <p class="card-text"><?= $livre["resume"] ?></p>
+                            <b>Genre :</b> <?= $livre["genre"] ?><br>
+                            <b>Langue :</b> <?= $livre["langue"] ?><br>
+                            <b>Collection :</b> <?= $livre["collection"] ?><br>
+                            <b>Nombre de pages :</b> <?= $livre["nb_pages"] ?><br>
                             <span class="text-warning"><?php
                                 $cp = 0;
                                 while($cp < 5) {
-                                    if($cp < $livres[$monLivre]["note"]) {
+                                    if($cp < $livre["note"]) {
                                         echo '&#9733;';
                                     } else {
                                         echo '&#9734; ';
@@ -75,7 +105,7 @@ require_once("inc/menu_top.php");
                                     $cp++;
                                 }
                              ?></span>
-                            <?= $livres[$monLivre]["note"] ?> étoiles <br /><br />
+                            <?= $livre["note"] ?> étoiles <br /><br />
                             <a href="#" class="btn btn-success">Acheter</a>
                         </div>
                     </div>
