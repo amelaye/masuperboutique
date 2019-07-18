@@ -25,6 +25,12 @@
                     echo 'Vous déconnecter';
                     echo '</a>';
                     echo '</li>';
+
+                    echo '<li class="nav-item">';
+                    echo '<a class="nav-link" href="compte.php">';
+                    echo 'Votre compte';
+                    echo '</a>';
+                    echo '</li>';
                 }
                 ?>
                 <li class="nav-item">

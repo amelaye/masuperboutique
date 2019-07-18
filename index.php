@@ -7,18 +7,17 @@
     /**
      * Sélection de tous les livres disponibles
      */
-    $sql = "SELECT 
+    $sql = 'SELECT 
         livre.id_livre AS id_livre,
         livre.titre AS titre,
         livre.photo AS image,
-        CONCAT(COALESCE(auteur.prenom, ''),' ', auteur.nom) AS auteur,
+        CONCAT(COALESCE(auteur.prenom, "")," ", auteur.nom) AS auteur,
         livre.prix AS prix,
-        'Pas de resumé' AS resume,
+        "Pas de resumé" AS resume,
         livre.note AS note
         FROM livre 
         LEFT JOIN auteur 
-        ON auteur.id_auteur = livre.id_auteur
-        ";
+        ON auteur.id_auteur = livre.id_auteur';
     $req = $dbh->prepare($sql);
     $req->execute();
     $livres = $req->fetchAll();
@@ -70,10 +69,9 @@
               } else if (isset($_COOKIE["id_client"])) {
                   $id = $_COOKIE["id_client"];
               }
-              $sql = "SELECT prenom
+              $sql = 'SELECT prenom
                 FROM client 
-                WHERE id_client = :id
-                ";
+                WHERE id_client = :id';
 
               $req = $dbh->prepare($sql);
               $req->bindParam(':id', $id);

@@ -18,16 +18,16 @@ if(isset($_POST["email"]) && $_POST["email"] != ""
     /**
      * Je vais vérifier si mon user existe
      */
-    $sql = "SELECT client.id_client, client.email, client.password 
+    $sql = 'SELECT client.id_client, client.email, client.password 
             FROM client 
-            WHERE client.email = :toto
-            AND client.password = :password
-            ";
+            WHERE client.email = :email
+            AND client.password = :password';
 
     $req = $dbh->prepare($sql);
-    $req->bindParam(':toto', $_POST["email"]);
+    $req->bindParam(':email', $_POST["email"]);
     $req->bindParam(':password', $_POST["password"]);
     $req->execute();
+
     $user = $req->fetch(); // Je vérifie les correspondances du mail : utilisateur trouvé
 
      if($user != false) {
@@ -95,10 +95,8 @@ require_once('inc/menu_top.php');
     <?php
     // Si j'ai envoyé mon formulaire
     if(isset($_POST["envoyer"])) {
-        // Si je suis authentifié.e
-        if($user != false) {
-            echo "<h5>Vous êtes authentifié.e :) </h5>";
-        } else {
+        // Si je suis PAS authentifié.e
+        if($user == false) {
             echo '<div class="alert alert-danger fade show">';
             echo '<ul>';
             foreach($erreurs as $erreur) {
@@ -115,14 +113,14 @@ require_once('inc/menu_top.php');
         <div class="form-group row">
             <label for="email" class="col-sm-2 col-form-label">Email</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="email" id="email">
+                <input type="email" class="form-control" name="email" id="email">
             </div>
         </div>
 
         <div class="form-group row">
             <label for="password" class="col-sm-2 col-form-label">Mot de passe</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="password" id="email">
+                <input type="password" class="form-control" name="password" id="email">
             </div>
         </div>
 
@@ -132,6 +130,8 @@ require_once('inc/menu_top.php');
                 <input type="checkbox" class="form-control" name="remember_me" id="remember_me">
             </div>
         </div>
+
+        <p><a href="compte.php">Pas de compte ? Connectez-vous !</a></p>
 
         <div class="form-group row">
             <div class="col-sm-10" >
