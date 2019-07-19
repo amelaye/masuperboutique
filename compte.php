@@ -1,16 +1,6 @@
 <?php
-/**
- * Je démarre ma session
- * Car je vais avoir besoin des sessions
- */
+// compte.php
 session_start();
-
-/**
- * On inclut la connexion SQL
- */
-require_once('inc/mysql-connect.php');
-
-$errors = []; // Initialisation des éventuelles erreurs
 
 /**
  * Je récupère l'id de mon client
@@ -31,169 +21,16 @@ else if(isset($_COOKIE["id_client"])) {
 }
 
 /**
- * Je récupère les infos de mon client s'il est connecté
+ * Si idClient est null, je suis dans un processus d'inscription
  */
-if($idClient != null) {
-    $sqlClient = 'SELECT * FROM client WHERE id_client = :id_client';
-    $reqClient = $dbh->prepare($sqlClient);
-    $reqClient->bindParam(':id_client', $idClient );
-    $reqClient->execute();
-    $client = $reqClient->fetch();
-}
-
-/**
- * On récupère les infos envoyées
- * L'envoi des données en POST est prioritaire
- * Sinon on va chercher les données dans la base client
- * Sinon c'est vide
- */
-if(isset($_POST["nom"])) {
-    $nom = $_POST["nom"];
+if($idClient == null) {
+    require_once('inc/insert.php');
 } else {
-    $nom = $client["nom"] ?? "";
-    /* Equivaut à :
-    if(isset($client["nom"])) {
-        $nom = $client["nom"];
-    } else {
-        $nom = "";
-    }*/
+    require_once('inc/modif.php'); // sinon, dans un process de modification
 }
-
-if(isset($_POST["prenom"])) {
-    $prenom = $_POST["prenom"];
-} else {
-    $prenom = $client["prenom"] ?? "";
-}
-
-if(isset($_POST["email"])) {
-    $email = $_POST["email"];
-} else {
-    $email = $client["email"] ?? "";
-}
-
-if(isset($_POST["password"])) {
-    $password = $_POST["password"];
-} else {
-    $password = $client["password"] ?? "";
-}
-
-if(isset($_POST["adresse"])) {
-    $adresse = $_POST["adresse"];
-} else {
-    $adresse = $client["adresse"] ?? "";
-}
-
-if(isset($_POST["ville"])) {
-    $ville = $_POST["ville"];
-} else {
-    $ville = $client["ville"] ?? "";
-}
-
-if(isset($_POST["code_postal"])) {
-    $codePostal = $_POST["code_postal"];
-} else {
-    $codePostal = $client["code_postal"] ?? "";
-}
-
-$valueSubmit = is_null($idClient) ? "Créer l'utilisateur" : "Modifier vos données";
-$titre = is_null($idClient) ? "Inscription" : "Votre compte utilisateur";
-
-/**
- * Quand on envoie le formulaire ...
- */
-if(isset($_POST["envoyer"])) {
-    /**
-     * Requete pour AJOUTER
-     * Elle s'effectue quand il n'y a ni COOKIE ni SESSION
-     */
-    if($idClient == null) {
-        $sql = 'INSERT INTO client (
-            nom,
-            prenom,
-            email,
-            password,
-            adresse,
-            ville,
-            code_postal
-        ) VALUES (
-            :nom,
-            :prenom,
-            :email,
-            :password,
-            :adresse,
-            :ville,
-            :code_postal
-        )';
-    } else {
-        /**
-         * Requête pour MODIFIER l'utilisateur
-         * S'effectue quand il y a SESSION OU COOKIE
-         */
-        $sql = 'UPDATE client SET
-          nom = :nom,
-          prenom = :prenom,
-          email = :email,
-          password = :password,
-          adresse = :adresse,
-          ville = :ville,
-          code_postal = :code_postal
-          WHERE
-          id_client = :id_client
-        ';
-    }
-
-    /**
-     * Je prépare ma requête (d'ajout ou de modification)
-     */
-    $req = $dbh->prepare($sql);
-    $req->bindParam(':nom', $nom );
-    $req->bindParam(':prenom', $prenom);
-    $req->bindParam(':email', $email);
-    $req->bindParam(':password', $password);
-    $req->bindParam(':adresse', $adresse);
-    $req->bindParam(':ville', $ville);
-    $req->bindParam(':code_postal', $codePostal);
-
-    /**
-     * Je binde l'id client si je suis dans une modification
-     */
-    if($idClient != null) {
-        $req->bindParam(':id_client', $idClient);
-    }
-
-    /**
-     * Execution de la requête
-     */
-    $result = $req->execute();
-
-    /**
-     * Mise en mémoire des erreurs rencontrées
-     */
-    if(!$result) {
-        $error = $req->errorInfo();
-
-        switch($error[0]) {
-            case "22001":
-                $errors[] = "Attention, vos champs sont trop longs !";
-                break;
-            case "23000":
-                $errors[] = "Cette adresse e-mail existe déjà !";
-                break;
-        }
-    }
-
-    /**
-     * Configuration des messages de succès
-     */
-    if($idClient == null) {
-        $succes = "Vous avez bien été inscrit.e !";
-    } else {
-        $succes = "Les modifications ont été effectuées !";
-    }
-}
-
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
