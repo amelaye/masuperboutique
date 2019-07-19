@@ -13,7 +13,7 @@
         livre.photo AS image,
         CONCAT(COALESCE(auteur.prenom, "")," ", auteur.nom) AS auteur,
         livre.prix AS prix,
-        "Pas de resumé" AS resume,
+        livre.resume AS resume,
         livre.note AS note
         FROM livre 
         LEFT JOIN auteur 

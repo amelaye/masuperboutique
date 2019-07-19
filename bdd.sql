@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jul 12, 2019 at 05:18 PM
+-- Generation Time: Jul 19, 2019 at 05:14 PM
 -- Server version: 5.7.21
 -- PHP Version: 7.1.19
 
@@ -34,10 +34,12 @@ CREATE TABLE `auteur` (
 --
 
 INSERT INTO `auteur` (`id_auteur`, `nom`, `prenom`, `bio`, `date_naissance`, `photo`) VALUES
-(1, 'King', 'Stephen', 'Il publie son premier roman en 1974 et devient rapidement célèbre pour ses contributions dans le domaine de l\'horreur mais écrit également des livres relevant d\'autres genres comme le fantastique, la fantasy, la science-fiction et le roman policier. ', '1947-09-21 00:00:00', 'img/king.jpg'),
-(2, 'Lehmann', 'Jonathan', 'Jonathan Lehmann était avocat d\'affaires lorsqu\'il a décidé de tout arrêter pour partir méditer en Inde. Dans \"Journal intime d\'un touriste du bonheur\", il raconte ce voyage en quête de sens.', NULL, 'img/lehmann.jpg'),
-(3, 'Tolle', 'Eckhart', 'Eckhart Tolle, de son vrai nom Ulrich Leonard Tolle, né le 16 février 1948 à Lünen, est un écrivain et conférencier canadien d\'origine allemande, auteur des best-sellers Le Pouvoir du moment présent et Nouvelle Terre.', '1948-02-16 00:00:00', NULL),
-(4, 'Rowling', 'Joanne', 'Joanne Rowling, également connue sous le nom de J. K. Rowling et le pseudonyme de Robert Galbraith, est une romancière et scénariste anglaise née le 31 juillet 1965 dans l’agglomération de Yate, dans le sud du Gloucestershire.', '1965-07-31 00:00:00', 'img/rowling.jpg');
+(1, ''King'', ''Stephen'', ''Il publie son premier roman en 1974 et devient rapidement célèbre pour ses contributions dans le domaine de l\''horreur mais écrit également des livres relevant d\''autres genres comme le fantastique, la fantasy, la science-fiction et le roman policier. '', ''1947-09-21 00:00:00'', ''img/king.jpg''),
+(2, ''Lehmann'', ''Jonathan'', ''Jonathan Lehmann était avocat d\''affaires lorsqu\''il a décidé de tout arrêter pour partir méditer en Inde. Dans \"Journal intime d\''un touriste du bonheur\", il raconte ce voyage en quête de sens.'', NULL, ''img/lehmann.jpg''),
+(3, ''Tolle'', ''Eckhart'', ''Eckhart Tolle, de son vrai nom Ulrich Leonard Tolle, né le 16 février 1948 à Lünen, est un écrivain et conférencier canadien d\''origine allemande, auteur des best-sellers Le Pouvoir du moment présent et Nouvelle Terre.'', ''1948-02-16 00:00:00'', NULL),
+(4, ''Rowling'', ''Joanne'', ''Joanne Rowling, également connue sous le nom de J. K. Rowling et le pseudonyme de Robert Galbraith, est une romancière et scénariste anglaise née le 31 juillet 1965 dans l’agglomération de Yate, dans le sud du Gloucestershire.'', ''1965-07-31 00:00:00'', ''img/rowling.jpg''),
+(13, ''aaa'', ''aaaa'', '''', ''1900-12-12 00:00:00'', NULL),
+(14, ''Verne'', ''Jules'', ''aaa'', ''2019-07-03 00:00:00'', ''img/verne.jpg'');
 
 -- --------------------------------------------------------
 
@@ -47,12 +49,27 @@ INSERT INTO `auteur` (`id_auteur`, `nom`, `prenom`, `bio`, `date_naissance`, `ph
 
 CREATE TABLE `client` (
   `id_client` int(11) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(50) NOT NULL,
   `nom` varchar(90) NOT NULL,
   `prenom` varchar(45) NOT NULL,
   `adresse` varchar(255) NOT NULL,
   `code_postal` varchar(5) NOT NULL,
   `ville` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `client`
+--
+
+INSERT INTO `client` (`id_client`, `email`, `password`, `nom`, `prenom`, `adresse`, `code_postal`, `ville`) VALUES
+(1, ''amelieonline@gmail.com'', ''azerty'', ''DUVERNET'', ''Amelaye'', ''11 zzzzz'', ''13006'', ''Marseille''),
+(2, ''amelie.duvernet@gmail.com'', ''pouet'', ''ONLINE'', ''Amelaye'', ''234 aaaa'', ''13000'', ''Marseille''),
+(3, ''aaa'', ''aaa'', ''aaa'', ''aaaa'', ''aaaa'', ''aaaa'', ''aaaa''),
+(5, ''aaaa'', ''aaaaa'', ''aaaaa'', ''aaaa'', ''aaaaa'', ''aaaaa'', ''aaaa''),
+(11, ''zzz@zzz.z'', ''zzzz'', ''zzzz'', ''zzzz'', ''zzzzzzz'', ''zzzz'', ''zzzzzzz''),
+(12, ''zerzer@zer.z'', ''aaaa'', ''aaaaa'', ''aaaa'', ''aaaa'', ''aaaa'', ''aaaaa''),
+(13, ''aaaa@pom.pom'', ''aaaa'', ''aaaa'', ''aaaa'', ''aaa'', ''aaaa'', ''aaaa'');
 
 -- --------------------------------------------------------
 
@@ -70,10 +87,10 @@ CREATE TABLE `collection` (
 --
 
 INSERT INTO `collection` (`id_collection`, `nom`) VALUES
-(1, 'Gallimard'),
-(2, 'J\'ai lu'),
-(3, 'Points'),
-(4, 'Livre de poche');
+(1, ''Gallimard''),
+(2, ''J\''ai lu''),
+(3, ''Points''),
+(4, ''Livre de poche'');
 
 -- --------------------------------------------------------
 
@@ -106,8 +123,8 @@ CREATE TABLE `format` (
 --
 
 INSERT INTO `format` (`id_format`, `nom`) VALUES
-(1, 'Poche'),
-(2, 'Broché');
+(1, ''Poche''),
+(2, ''Broché'');
 
 -- --------------------------------------------------------
 
@@ -125,8 +142,8 @@ CREATE TABLE `genre` (
 --
 
 INSERT INTO `genre` (`id_genre`, `nom`) VALUES
-(1, 'Fantasy'),
-(2, 'Développement personnel');
+(1, ''Fantasy''),
+(2, ''Développement personnel'');
 
 -- --------------------------------------------------------
 
@@ -144,7 +161,7 @@ CREATE TABLE `langue` (
 --
 
 INSERT INTO `langue` (`id_langue`, `nom`) VALUES
-(1, 'Français');
+(1, ''Français'');
 
 -- --------------------------------------------------------
 
@@ -155,7 +172,7 @@ INSERT INTO `langue` (`id_langue`, `nom`) VALUES
 CREATE TABLE `ligne_panier` (
   `id_lignepanier` int(11) NOT NULL,
   `id_livre` int(11) NOT NULL,
-  `quantite` int(11) NOT NULL DEFAULT '1',
+  `quantite` int(11) NOT NULL DEFAULT ''1'',
   `id_panier` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -169,7 +186,7 @@ CREATE TABLE `livre` (
   `id_livre` int(11) NOT NULL,
   `titre` varchar(100) NOT NULL,
   `prix` decimal(5,2) NOT NULL,
-  `note` int(11) NOT NULL DEFAULT '0',
+  `note` int(11) NOT NULL DEFAULT ''0'',
   `nb_pages` int(11) DEFAULT NULL,
   `annee` int(11) DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
@@ -177,19 +194,26 @@ CREATE TABLE `livre` (
   `id_collection` int(11) NOT NULL,
   `id_genre` int(11) NOT NULL,
   `id_langue` int(11) NOT NULL,
-  `id_format` int(11) NOT NULL
+  `id_format` int(11) NOT NULL,
+  `resume` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `livre`
 --
 
-INSERT INTO `livre` (`id_livre`, `titre`, `prix`, `note`, `nb_pages`, `annee`, `photo`, `id_auteur`, `id_collection`, `id_genre`, `id_langue`, `id_format`) VALUES
-(7, 'La ligne verte', '7.90', 4, 505, 1996, 'img/ligneverte.jpg', 1, 4, 1, 1, 1),
-(8, 'Carrie', '7.20', 4, 226, 1974, 'img/carrie.jpg', 1, 4, 1, 1, 1),
-(9, 'Harry Potter à l\'école des sorciers', '21.00', 5, 336, 1999, 'img/harrypotter.jpg', 4, 1, 1, 1, 2),
-(10, 'Journal intime d\'un touriste du bonheur', '16.90', 3, 288, 2018, 'img/journal.jpg', 2, 3, 2, 1, 2),
-(11, 'Le pouvoir du moment présent ', '7.20', 3, 256, 2010, 'img/pouvoir.jpg', 3, 2, 2, 1, 1);
+INSERT INTO `livre` (`id_livre`, `titre`, `prix`, `note`, `nb_pages`, `annee`, `photo`, `id_auteur`, `id_collection`, `id_genre`, `id_langue`, `id_format`, `resume`) VALUES
+(7, ''La ligne verte'', ''7.90'', 4, 505, 1996, ''img/ligneverte.jpg'', 1, 4, 1, 1, 1, ''Résumé de la ligne verte''),
+(8, ''Carrie'', ''7.20'', 4, 226, 1974, ''img/carrie.jpg'', 1, 4, 1, 1, 1, ''''),
+(9, ''Harry Potter à l\''école des sorciers'', ''21.00'', 5, 336, 1999, ''img/harrypotter.jpg'', 4, 1, 1, 1, 2, ''''),
+(10, ''Journal intime d\''un touriste du bonheur'', ''16.90'', 3, 288, 2018, ''img/journal.jpg'', 2, 3, 2, 1, 2, ''''),
+(11, ''Le pouvoir du moment présent '', ''7.20'', 3, 256, 2010, ''img/pouvoir.jpg'', 3, 2, 2, 1, 1, ''''),
+(22, ''Rose Madder'', ''12.00'', 4, 123, 1990, ''img/rosemadder.jpg'', 1, 4, 1, 1, 1, ''Quatorze ans. C\''est le nombre d\''années de torture que Rosie McClendon Daniels a vécu. Quatorze ans enfermée chez elle à se faire battre, mordre et terroriser par son bourreau de mari, dont les violences lui ont même causé une fausse couche il y a neuf ans. Après toutes ces années avec Norman Daniels, Rosie prend tout à coup conscience que cela ne peut plus durer et quitte le domicile conjugal sur un coup de tête en emportant seulement avec elle la carte bancaire de son mari.''),
+(23, ''Harry Potter et la coupe de feu'', ''23.00'', 5, 500, 2004, NULL, 4, 1, 1, 1, 1, ''C\''est chouette''),
+(24, ''Harry Potter et le prince de Sang-Mêlé'', ''40.00'', 4, 700, 2005, NULL, 4, 1, 1, 1, 1, ''''),
+(28, ''Jessie'', ''34.00'', 3, 234, 1990, NULL, 1, 4, 1, 1, 1, ''Good !''),
+(29, ''Jessie'', ''34.00'', 3, 234, 1990, ''img/jessie.jpg'', 1, 1, 1, 1, 1, ''Good !''),
+(30, ''20000 Lieues sous les mers'', ''20.00'', 4, 345, 1900, NULL, 14, 1, 1, 1, 2, ''Mais c\''est bien !'');
 
 -- --------------------------------------------------------
 
@@ -218,7 +242,8 @@ ALTER TABLE `auteur`
 -- Indexes for table `client`
 --
 ALTER TABLE `client`
-  ADD PRIMARY KEY (`id_client`);
+  ADD PRIMARY KEY (`id_client`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `collection`
@@ -285,13 +310,13 @@ ALTER TABLE `panier`
 -- AUTO_INCREMENT for table `auteur`
 --
 ALTER TABLE `auteur`
-  MODIFY `id_auteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_auteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id_client` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_client` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `collection`
@@ -315,7 +340,7 @@ ALTER TABLE `genre`
 -- AUTO_INCREMENT for table `livre`
 --
 ALTER TABLE `livre`
-  MODIFY `id_livre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_livre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Constraints for dumped tables

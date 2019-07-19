@@ -47,7 +47,7 @@ if(isset($_POST["envoyer"])) {
      * Je prépare ma requête (d'ajout ou de modification)
      */
     $req = $dbh->prepare($sql);
-    $req->bindParam(':nom', $nom);
+    $req->bindParam(':nom', $nom, PDO::PARAM_STR);
     $req->bindParam(':prenom', $prenom);
     $req->bindParam(':email', $email);
     $req->bindParam(':password', $password);

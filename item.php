@@ -15,7 +15,7 @@ SELECT
 livre.titre AS titre,
 livre.prix AS prix,
 livre.note AS note,
-'Pas de résumé !' AS resume,
+livre.resume AS resume,
 livre.photo AS image,
 livre.nb_pages AS nb_pages,
 CONCAT(COALESCE(auteur.prenom, ''),' ', auteur.nom) AS auteur,

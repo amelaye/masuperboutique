@@ -21,6 +21,18 @@
                     echo '</li>';
                 } else {
                     echo '<li class="nav-item">';
+                    echo '<a class="nav-link" href="formlivre.php">';
+                    echo '+ Livre';
+                    echo '</a>';
+                    echo '</li>';
+
+                    echo '<li class="nav-item">';
+                    echo '<a class="nav-link" href="formauteur.php">';
+                    echo '+ Auteur';
+                    echo '</a>';
+                    echo '</li>';
+
+                    echo '<li class="nav-item">';
                     echo '<a class="nav-link" href="deconnect.php">';
                     echo 'Vous déconnecter';
                     echo '</a>';
