@@ -342,6 +342,13 @@ ALTER TABLE `genre`
 ALTER TABLE `livre`
   MODIFY `id_livre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
+
+--
+-- AUTO_INCREMENT for table `panier`
+--
+ALTER TABLE `panier`
+  MODIFY `id_panier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
 --
 -- Constraints for dumped tables
 --
