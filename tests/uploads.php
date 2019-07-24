@@ -43,6 +43,7 @@ if(isset($_POST["submit"])
      */
 
     $uploadfile = $uploaddir . basename($_FILES['picture']['name']);
+    $uploadfileMin = $uploaddir . "min_" . basename($_FILES['picture']['name']);
 
     /**
      * Upload du fichier
@@ -51,6 +52,30 @@ if(isset($_POST["submit"])
      */
     if(move_uploaded_file($_FILES['picture']['tmp_name'], $uploadfile)) {
         echo "Le fichier a été téléchargé avec succès.";
+
+        /**
+         * Création de la miniature
+         */
+        $source = imagecreatefromjpeg($uploadfile);
+
+        /**
+         * Création de la miniature avec ratio / 2
+         */
+        $destination = imagecreatetruecolor(imagesx($source)/2, imagesy($source)/2);
+
+        // Les fonctions imagesx et imagesy renvoient la largeur et la hauteur d'une image
+        $largeur_source = imagesx($source);
+        $hauteur_source = imagesy($source);
+        $largeur_destination = imagesx($destination);
+        $hauteur_destination = imagesy($destination);
+
+        // On crée la miniature
+        imagecopyresampled($destination, $source, 0, 0, 0, 0,
+            $largeur_destination, $hauteur_destination, $largeur_source, $hauteur_source);
+
+        // On enregistre la miniature sous le nom spécifié
+        imagejpeg($destination, $uploadfileMin);
+
     } else {
         echo "Il y a eu un problème : <br />";
         print_r($_FILES['picture']['error']);
